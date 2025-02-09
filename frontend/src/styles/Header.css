@@ -1,0 +1,16 @@
+#header {
+    height: 18vh;
+}
+
+#header section:first-of-type{
+    display: flex;
+    justify-content: center;
+
+}
+
+#header section:last-of-type{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    
+}

@@ -1,0 +1,39 @@
+.From {
+    border-radius: 1rem;
+}
+
+.From div.btnBox{
+    border-radius: 1rem 1rem 0rem 0rem;
+}
+
+.From div.btnBox a{
+    padding: 1rem 0rem !important;
+    text-wrap: nowrap !important;
+    text-decoration: none;
+    color: white;
+    border-top: 1px solid black;
+
+}
+
+.From div.btnBox a:first-of-type{
+    border-radius: 1rem 1rem 0rem 0rem;
+    background-color: green;
+    border-left: 1px solid black;
+    border-right: 0.5px solid black;
+}
+
+.From div.btnBox a:last-of-type{
+    border-radius: 1rem 1rem 0rem 0rem;
+}
+
+
+
+.From div.formBox {
+    border-radius: 0rem 0rem 1rem 1rem;
+    padding: 1rem !important;
+    border-top: 1px solid black;
+}
+
+.From div.formBox input {
+    padding: 10px;
+}
