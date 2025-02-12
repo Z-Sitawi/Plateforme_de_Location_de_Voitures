@@ -1,4 +1,4 @@
-import { LOGIN } from "./actions";
+import { createSlice } from "@reduxjs/toolkit";
 
 const toValidType = (data) => {
   if (data) return JSON.parse(data);
@@ -12,21 +12,34 @@ const getAllEmails = () => {
   return emails;
 };
 
-const iniState = {
-  usersList: toValidType(localStorage.getItem("usersList")),
-  usersId: toValidType(localStorage.getItem("usersId")),
-  emails: getAllEmails(),
-  logedinUser: toValidType(localStorage.getItem("logedinUser")) || false,
-};
+const authSlice = createSlice({
+  name: "auth",
+  initialState: {
+    usersList: toValidType(localStorage.getItem("usersList")),
+    usersId: toValidType(localStorage.getItem("usersId")),
+    emails: getAllEmails(),
+    logedinUser: toValidType(localStorage.getItem("logedinUser")) || false,
+  },
+  reducers: {
+    login: (state, action) => {
+      localStorage.setItem("logedinUser", JSON.stringify(action.payload));
+      state.logedinUser = action.payload;
+    },
+    logout: (state) => {
+      localStorage.removeItem("logedinUser");
+      state.logedinUser = false;
+    },
+    addUser: (state, action) => {
+      const newUser = action.payload;
+      const users = state.usersList ? [...state.usersList, newUser] : [newUser];
+      localStorage.setItem("usersList", JSON.stringify(users));
+      localStorage.setItem("usersId", JSON.stringify(state.usersId + 1));
+      state.usersList = users;
+      state.emails = getAllEmails();
+      state.usersId += 1;
+    },
+  },
+});
 
-export default function reducer(state = iniState, action) {
-  switch (action.type) {
-    case LOGIN:
-      return (state = {
-        ...state,
-        logedinUser: action.payload,
-      });
-    default:
-      return state;
-  }
-}
+export const authReducer = authSlice.reducer;
+export const { login, logout, addUser } = authSlice.actions;

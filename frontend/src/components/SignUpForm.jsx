@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser } from "../config/reducer";
 
 export default function SignUpForm() {
-  const usersList = useSelector((data) => data.usersList);
-  const usersId = useSelector((data) => data.usersId);
-  const emails = useSelector((data) => data.emails);
-
+  const usersId = useSelector((state) => state.auth.usersId);
+  const emails = useSelector((state) => state.auth.emails);
+  const dispatch = useDispatch();
   const [user, setUser] = useState({
     nom: "",
     prenom: "",
@@ -37,14 +37,6 @@ export default function SignUpForm() {
     });
   };
 
-  const addUser = () => {
-    let { nom, prenom, email, pwd } = user;
-    let newData = [...usersList, { id: usersId, nom, prenom, email, pwd }];
-    localStorage.setItem("usersList", JSON.stringify(newData));
-    localStorage.setItem("usersId", JSON.stringify(usersId + 1));
-    clear();
-  };
-
   const signup = (e) => {
     e.preventDefault();
 
@@ -56,7 +48,16 @@ export default function SignUpForm() {
         pwdErr: "Les mots de passe ne correspondent pas",
       });
     } else {
-      addUser();
+      dispatch(
+        addUser({
+          nom: user.nom,
+          prenom: user.prenom,
+          email: user.email,
+          pwd: user.pwd,
+          id: usersId,
+        })
+      );
+      clear();
       setCreated(true);
     }
   };
@@ -74,6 +75,7 @@ export default function SignUpForm() {
         )}
         <label htmlFor="nom">Nom:</label>
         <input
+          autoComplete="true"
           required
           onChange={handleOnchange}
           id="nom"
@@ -86,6 +88,7 @@ export default function SignUpForm() {
       <div className="my-2">
         <label htmlFor="prenom">Prénom:</label>
         <input
+          autoComplete="true"
           required
           onChange={handleOnchange}
           id="prenom"
@@ -98,6 +101,7 @@ export default function SignUpForm() {
       <div className="my-2">
         <label htmlFor="email">Email:</label>
         <input
+          autoComplete="true"
           required
           onChange={handleOnchange}
           id="email"
@@ -111,6 +115,7 @@ export default function SignUpForm() {
       <div className="my-2">
         <label htmlFor="pwd">Mot de passe</label>
         <input
+          autoComplete="true"
           required
           onChange={handleOnchange}
           id="pwd"
@@ -124,6 +129,7 @@ export default function SignUpForm() {
       <div className="my-2">
         <label htmlFor="confirmPwd">Confirmez le mot de passe</label>
         <input
+          autoComplete="true"
           required
           onChange={handleOnchange}
           id="confirmPwd"

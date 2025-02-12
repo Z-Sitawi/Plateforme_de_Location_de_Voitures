@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { LOGIN } from "../config/actions";
+import { login } from "../config/reducer";
 
 export default function SignInForm() {
   const [email, setEamil] = useState("");
@@ -10,8 +10,8 @@ export default function SignInForm() {
     emailErr: "",
     pwdErr: "",
   });
-  const emails = useSelector((data) => data.emails);
-  const usersList = useSelector((data) => data.usersList);
+  const emails = useSelector((state) => state.auth.emails);
+  const usersList = useSelector((state) => state.auth.usersList);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -33,11 +33,7 @@ export default function SignInForm() {
         pwdErr: "Votre Mot de passe n'est pas correct",
       });
     } else {
-      localStorage.setItem(
-        "logedinUser",
-        JSON.stringify(getUserByEmail(email))
-      );
-      dispatch({ type: LOGIN, payload: getUserByEmail(email) });
+      dispatch(login(getUserByEmail(email)));
       navigate("/accueil");
     }
   };
