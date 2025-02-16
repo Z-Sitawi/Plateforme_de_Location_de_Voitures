@@ -1,0 +1,50 @@
+.salutation {
+  text-wrap: nowrap;
+  font-weight: bold;
+  font-size: xx-large;
+}
+
+#hand {
+  font-size: x-large;
+  display: inline-block;
+  animation: wave 1s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(20deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@media screen AND (max-width: 1000px) {
+    .salutation {
+        font-size: x-large !important;
+    }
+}
+
+@media screen AND (max-width: 770px) {
+    .salutation {
+        font-size: large !important;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+        text-wrap: wrap;
+        text-align: center;
+    }
+}
+
+@media screen AND (max-width: 400px) {
+    .salutation {
+        font-size: medium !important;
+        padding-right: 20px !important;
+    }
+
+    .salutation i{
+        font-size: larger;
+    }
+}
