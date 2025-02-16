@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../config/reducer";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import "../styles/hello.css"
 
 function salutation() {
   const currentHour = new Date().getHours();

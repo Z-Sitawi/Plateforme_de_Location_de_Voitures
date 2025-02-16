@@ -2,12 +2,15 @@
 import { useState } from "react";
 import Salutation from "./Salutation";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { changeComponent } from "../config/reducer";
 
 export default function Navigation(props) {
-  const [displaySideBar, setDisplaySideBar] = useState("-35%");
+  const dispatch = useDispatch();
+  const [displaySideBar, setDisplaySideBar] = useState("-100%");
   const handleDisplaySideBar = () => {
     displaySideBar === "0%"
-      ? setDisplaySideBar("-35%")
+      ? setDisplaySideBar("-100%")
       : setDisplaySideBar("0%");
   };
 
@@ -16,11 +19,17 @@ export default function Navigation(props) {
     user: { message: "Passer à l'administrateur", path: "/accueil/admin" },
   };
 
+  const changeComp = (e) => {
+    const id = Number(e.target.id);
+    dispatch(changeComponent(id));
+    setDisplaySideBar("-100%");
+  };
+
   return (
     <>
       <nav
-        style={{ height: "15vh" }}
-        className="d-flex justify-content-between align-items-center mx-2 gap-2"
+        style={{ height: "180px" }}
+        className="p-2 gap-2 d-flex justify-content-around align-items-center col-12"
       >
         <section
           onClick={handleDisplaySideBar}
@@ -31,15 +40,25 @@ export default function Navigation(props) {
           <span className="bg-danger pt-1 px-3"></span>
           <span className="bg-danger pt-1 px-3"></span>
         </section>
-        <Salutation className="col-11" color={""} border={"5px solid red"} admin={props.type === "admin"? true: false}/>
+        <Salutation
+          className="col-md-10 col-xl-11"
+          color={""}
+          border={"5px solid red"}
+          admin={props.type === "admin" ? true : false}
+        />
       </nav>
       <div
         style={{ left: displaySideBar }}
-        className="slideBar bg-danger col-4 col-md-3 col-xl-2"
+        className="slideBar bg-danger col-8 col-md-5 col-lg-3 col-xl-2"
       >
-        {["Home", "Settings", "DashBoard", "Statistics"].map((e, i) => (
-          <p className="p-3 text-center text-light m-0" key={i}>
-            {e}
+        {props.navs.map((e, i) => (
+          <p
+            onClick={changeComp}
+            className="p-3 text-center text-light m-0"
+            key={i}
+            id={e.id}
+          >
+            {e.title}
           </p>
         ))}
         <Link to={types[props.type].path} className="switchUser">

@@ -41,5 +41,20 @@ const authSlice = createSlice({
   },
 });
 
+const viewSlice = createSlice({
+  name: "view",
+  initialState: {
+    componentToShow: 0,
+  },
+  reducers: {
+    changeComponent: (state, action) => {
+      state.componentToShow = action.payload;
+    },
+  },
+});
+
 export const authReducer = authSlice.reducer;
 export const { login, logout, addUser } = authSlice.actions;
+
+export const viewReducer = viewSlice.reducer;
+export const { changeComponent } = viewSlice.actions;
