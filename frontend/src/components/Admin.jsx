@@ -1,14 +1,15 @@
-import Navigation from "./Navigation";
-import Dashboard from "./slideComponents/Dashboard";
-import Exam from "./slideComponents/Exam";
 import { useSelector } from "react-redux";
 
+import Navigation from "./Navigation";
+import Dashboard from "./slideComponents/Dashboard";
+import AddCarForm from "./slideComponents/AddCar";
+
 export default function Admin() {
-  const components = [<Dashboard key={0} />, <Exam key={1} />];
+  const components = [<Dashboard key={0} />, <AddCarForm key={1} />];
   const componentToShow = useSelector((state) => state.view.componentToShow);
   const navs = [
     { title: "Tableau de Bord", id: 0 },
-    { title: "Exam", id: 1 },
+    { title: "Ajouter Voiture", id: 1 },
   ];
 
   return (
