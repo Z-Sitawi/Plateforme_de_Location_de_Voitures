@@ -15,8 +15,11 @@ export default function App() {
   useEffect(() => {
     const usersId = localStorage.getItem("usersId");
     const usersList = localStorage.getItem("usersList");
+    const cars = localStorage.getItem("cars");
+
     if (!usersId) localStorage.setItem("usersId", JSON.stringify(0));
     else if (!usersList) localStorage.setItem("usersList", JSON.stringify([]));
+    else if (!cars) localStorage.setItem("cars", JSON.stringify({}));
   }, []);
 
   if (!logedinUser) {
