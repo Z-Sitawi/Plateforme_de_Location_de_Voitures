@@ -2,6 +2,8 @@
   text-wrap: nowrap;
   font-weight: bold;
   font-size: xx-large;
+  border: 5px solid #dc3545;
+  border-radius: 15px;
 }
 
 #hand {
@@ -23,28 +25,28 @@
 }
 
 @media screen AND (max-width: 1000px) {
-    .salutation {
-        font-size: x-large !important;
-    }
+  .salutation {
+    font-size: x-large !important;
+  }
 }
 
 @media screen AND (max-width: 770px) {
-    .salutation {
-        font-size: large !important;
-        padding-left: 10px !important;
-        padding-right: 10px !important;
-        text-wrap: wrap;
-        text-align: center;
-    }
+  .salutation {
+    font-size: large !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    text-wrap: wrap;
+    text-align: center;
+  }
 }
 
 @media screen AND (max-width: 400px) {
-    .salutation {
-        font-size: medium !important;
-        padding-right: 20px !important;
-    }
+  .salutation {
+    font-size: medium !important;
+    padding-right: 20px !important;
+  }
 
-    .salutation i{
-        font-size: larger;
-    }
+  .salutation i {
+    font-size: larger;
+  }
 }
