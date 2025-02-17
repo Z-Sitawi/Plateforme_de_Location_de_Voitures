@@ -6,20 +6,18 @@ import {
   Popup,
   useMapEvents,
 } from "react-leaflet";
-/* import L from 'leaflet'; */ 
 
 import "leaflet/dist/leaflet.css";
 
-const AddCarForm = () => {
-  // State to store the latitude and longitude
-  const [coords, setCoords] = useState({ lat: 51.505, lng: -0.09 });
+import { fuelTypes, colorNames } from "../../assets/statics";
+import Card from "../Card";
 
-  // Handle the map click event to set the coordinates
+function Map(prop) {
   const MapClickHandler = () => {
     useMapEvents({
       click(event) {
         const { lat, lng } = event.latlng;
-        setCoords({ lat, lng });
+        prop.setCoordinations({ lat, lng });
       },
     });
     return null;
@@ -27,48 +25,227 @@ const AddCarForm = () => {
 
   return (
     <div>
-      <h2>Add Car Location</h2>
-      <form>
-        <label htmlFor="car-name">Car Name:</label>
-        <input type="text" id="car-name" name="car-name" required />
+      <MapContainer center={prop.coordinations} zoom={13} className="" id="map">
+        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-        <label htmlFor="latitude">Latitude:</label>
-        <input
-          type="text"
-          id="latitude"
-          name="latitude"
-          value={coords.lat}
-          readOnly
-        />
-
-        <label htmlFor="longitude">Longitude:</label>
-        <input
-          type="text"
-          id="longitude"
-          name="longitude"
-          value={coords.lng}
-          readOnly
-        />
-      </form>
-
-      <MapContainer
-        center={coords} // Initial center of the map
-        zoom={13}
-        style={{ width: "100%", height: "400px" }}
-      >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        />
         <MapClickHandler />
-        <Marker position={coords}>
+
+        <Marker position={prop.coordinations}>
           <Popup>
             <span>
-              Car Location: {coords.lat}, {coords.lng}
+              Car Location: {prop.coordinations.lat}, {prop.coordinations.lng}
             </span>
           </Popup>
         </Marker>
       </MapContainer>
+    </div>
+  );
+}
+
+const AddCarForm = () => {
+  const [coordinations, setCoordinations] = useState({
+    lat: 34.021,
+    lng: -6.834,
+  });
+
+  const [car, setCar] = useState({
+    mark: "",
+    model: "",
+    year: "",
+    kilo: "",
+    fuel: "",
+    color: "",
+    price: "",
+    description: "",
+    image: "",
+  });
+
+  const [displayCard, setDisplayCard] = useState(false);
+
+  const handleChange = (e) => {
+    let { name, value } = e.target;
+    setCar({ ...car, [name]: value });
+  };
+
+  const handleImage = (e) => {
+    let img = e.target.files[0];
+    if (img) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setCar({ ...car, image: String(reader.result) });
+      };
+
+      reader.readAsDataURL(img);
+    }
+  };
+
+  const addCar = (e) => {
+    e.preventDefault();
+      setDisplayCard(true)
+  };
+
+  return (
+    <div className="d-flex flex-column">
+      <Card car={car} displayCard={displayCard} setDisplayCard={setDisplayCard} setCar={setCar}/>
+      <h1 className="text-center">Ajouter un Nouveau Véhicule</h1>
+      <form
+        onSubmit={addCar}
+        className="col-12 d-flex flex-column gap-2 justify-content-center align-items-center"
+      >
+        <div className="d-flex justify-content-between align-items-center col-12">
+          <label className="col-6" htmlFor="car-mark">
+            Marque :
+          </label>
+          <input
+            onChange={handleChange}
+            className="col-6"
+            type="text"
+            id="car-mark"
+            name="mark"
+            required
+            value={car.mark}
+          />
+        </div>
+
+        <div className="d-flex justify-content-between align-items-center col-12">
+          <label className="col-6" htmlFor="car-name">
+            Nom du modèle :
+          </label>
+          <input
+            onChange={handleChange}
+            className="col-6"
+            type="text"
+            id="car-name"
+            name="model"
+            required
+            value={car.model}
+          />
+        </div>
+
+        <div className="d-flex justify-content-between align-items-center col-12">
+          <label className="col-6" htmlFor="car-year">
+            Année de fabrication :
+          </label>
+          <input
+            onChange={handleChange}
+            className="col-6"
+            type="number"
+            id="car-year"
+            name="year"
+            required
+            value={car.year}
+          />
+        </div>
+
+        <div className="d-flex justify-content-between align-items-center col-12">
+          <label className="col-6" htmlFor="car-mileage">
+            Kilométrage :
+          </label>
+          <input
+            onChange={handleChange}
+            className="col-6"
+            type="number"
+            id="car-mileage"
+            name="kilo"
+            required
+            value={car.kilo}
+          />
+        </div>
+
+        <div className="d-flex justify-content-between align-items-center col-12">
+          <label className="col-6" htmlFor="car-fuel">
+            Type de carburant :
+          </label>
+          <select
+            className="col-6 p-1"
+            id="car-fuel"
+            name="fuel"
+            required
+            value={car.fuel}
+            onChange={handleChange}
+          >
+            <option value="" disabled>
+              Sélectionnez le type de carburant de votre véhicule
+            </option>
+
+            {fuelTypes.map((type, idx) => (
+              <option key={idx} value={type}>
+                {type}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="d-flex justify-content-between align-items-center col-12">
+          <label className="col-6" htmlFor="car-color">
+            Couleur :
+          </label>
+          <select
+            value={car.color}
+            className="col-6 p-1"
+            id="car-color"
+            name="color"
+            onChange={handleChange}
+            required
+          >
+            <option value="" disabled>
+              Sélectionnez la couleur de votre véhicule
+            </option>
+            {colorNames.map((color, idx) => (
+              <option key={idx} value={color}>
+                {color}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="d-flex justify-content-between align-items-center col-12">
+          <label className="col-6" htmlFor="car-price">
+            Prix par jour (dhs):
+          </label>
+          <input
+            onChange={handleChange}
+            className="col-6"
+            type="number"
+            id="car-price"
+            name="price"
+            required
+            value={car.price}
+          />
+        </div>
+
+        <div className="d-flex justify-content-between align-items-center col-12">
+          <label className="col-6" htmlFor="car-description">
+            Description :
+          </label>
+          <textarea
+            value={car.description}
+            className="col-6"
+            id="car-description"
+            name="description"
+            onChange={handleChange}
+          ></textarea>
+        </div>
+
+        <div className="d-flex justify-content-between align-items-center col-12">
+          <label className="col-6" htmlFor="car-image">
+            Téléchargez une image :
+          </label>
+          <input
+            onChange={handleImage}
+            className="col-6"
+            type="file"
+            id="car-image"
+            name="image"
+            accept="image/*"
+            required
+          />
+        </div>
+        <button style={{bottom: "10px"}} className="btn btn-danger col-11 position-absolute">Ajouter</button>
+      </form>
+
+      <h3 className="my-3">Sélectionnez Localisation du véhicule :</h3>
+      <Map coordinations={coordinations} setCoordinations={setCoordinations} />
     </div>
   );
 };

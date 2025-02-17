@@ -21,7 +21,7 @@ export default function Navigation(props) {
 
   const changeComp = (e) => {
     const id = Number(e.target.id);
-    dispatch(changeComponent(id));
+    dispatch(changeComponent({id, type: props.type}));
     setDisplaySideBar("-100%");
   };
 
@@ -43,7 +43,6 @@ export default function Navigation(props) {
         <Salutation
           className="col-md-10 col-xl-11"
           color={""}
-          border={"5px solid red"}
           admin={props.type === "admin" ? true : false}
         />
       </nav>

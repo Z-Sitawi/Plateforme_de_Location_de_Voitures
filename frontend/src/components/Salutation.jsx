@@ -29,7 +29,7 @@ export default function Salutation(props) {
     <div
       style={{ color: props.color, border: props.border, ...props.style }}
       className={
-        "salutation rounded p-3 px-5 d-flex justify-content-between align-items-center " +
+        "salutation p-3 px-5 d-flex justify-content-between align-items-center " +
         props.className
       }
     >
