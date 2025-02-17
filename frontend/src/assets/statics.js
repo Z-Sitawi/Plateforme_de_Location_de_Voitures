@@ -134,3 +134,24 @@ export const colorNames = [
   "Violet",
   "autre",
 ];
+
+
+export const getReservationDates = () => {
+  let todayDate = new Date();
+  let year = todayDate.getFullYear();
+  let month = todayDate.getMonth() + 1;
+  let day = todayDate.getDate();
+
+  // Set the pickupDate to today's date
+  let pickupDate = `${year}-${month < 10 ? "0" + month : month}-${
+    day < 10 ? "0" + day : day
+  }`;
+
+  // Increment todayDate to get tomorrow's date
+  todayDate.setDate(todayDate.getDate() + 1);
+
+  // Set minReturnDate to tomorrow's date
+  let minReturnDate = `${todayDate.getFullYear()}-${(todayDate.getMonth() + 1) < 10 ? "0" + (todayDate.getMonth() + 1) : (todayDate.getMonth() + 1)}-${todayDate.getDate() < 10 ? "0" + todayDate.getDate() : todayDate.getDate()}`;
+
+  return { pickupDate, minReturnDate };
+};

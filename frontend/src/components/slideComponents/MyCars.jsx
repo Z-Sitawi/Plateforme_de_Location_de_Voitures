@@ -61,13 +61,13 @@ function CarInfo(props) {
 
         {props.car.rented ? (
           <div className="d-flex gap-3">
-            <b>status:</b>
+            <b>statut:</b>
 
             <button className="badge border-0 p-2 bg-success">Loué</button>
           </div>
         ) : (
           <div className="d-flex gap-3">
-            <b>status:</b>
+            <b>statut:</b>
             <button className="badge border-0 p-2 bg-danger">Non loué</button>
           </div>
         )}
@@ -91,7 +91,7 @@ export default function MyCars() {
 
   return (
     <div>
-      {!myCars || myCars.length > 0 ? (
+      {myCars.length > 0 ? (
         myCars.map((car, idx) => <CarInfo key={idx} car={car} />)
       ) : (
         <h1 className="text-danger text-center pt-5">Aucune voiture trouvée</h1>

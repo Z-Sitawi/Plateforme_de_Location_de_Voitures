@@ -12,7 +12,7 @@ import Admin from "./components/Admin.jsx";
 import App from "./App.jsx";
 import AuthPage from "./components/AuthPage.jsx";
 import Home from "./components/Home.jsx";
-
+import CarDetailPage from "./components/CarDetailPage.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -24,7 +24,7 @@ createRoot(document.getElementById("root")).render(
           <Route path="/accueil" element={<Home />} />
           <Route path="/accueil/user" element={<User />} />
           <Route path="/accueil/admin" element={<Admin />} />
-
+          <Route path="car/:id/:ownerID" element={<CarDetailPage />}/>
           {/* Wrong Path */}
           <Route path="*" element={<div className="display-1 text-center mt-5">Page Non Trouvée</div>} />
         </Routes>

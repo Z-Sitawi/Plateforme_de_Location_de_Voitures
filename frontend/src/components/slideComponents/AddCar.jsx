@@ -81,12 +81,21 @@ const AddCarForm = () => {
 
   const addCar = (e) => {
     e.preventDefault();
-      setDisplayCard(true)
+    let newObj = { ...car, ...coordinations }
+    setCar(newObj)
+    setDisplayCard(true);
   };
+
+
 
   return (
     <div className="d-flex flex-column">
-      <Card car={car} displayCard={displayCard} setDisplayCard={setDisplayCard} setCar={setCar}/>
+      <Card
+        car={car}
+        displayCard={displayCard}
+        setDisplayCard={setDisplayCard}
+        setCar={setCar}
+      />
       <h1 className="text-center">Ajouter un Nouveau Véhicule</h1>
       <form
         onSubmit={addCar}
@@ -241,7 +250,12 @@ const AddCarForm = () => {
             required
           />
         </div>
-        <button style={{bottom: "10px"}} className="btn btn-danger col-11 position-absolute">Ajouter</button>
+        <button
+          style={{ bottom: "10px" }}
+          className="btn btn-danger col-11 position-absolute"
+        >
+          Ajouter
+        </button>
       </form>
 
       <h3 className="my-3">Sélectionnez Localisation du véhicule :</h3>
