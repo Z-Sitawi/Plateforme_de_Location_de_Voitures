@@ -25,9 +25,10 @@ export default function Admin() {
         style={{
           border: "5px solid",
           borderRadius: "15px",
-          paddingBottom: "100px"
+          paddingBottom: "100px",
+          minHeight: "70vh",
         }}
-        className="mb-5 border-danger container bg-dangerr position-relative"
+        className="border-danger container bg-dangerr position-relative px-3"
       >
         {components[componentToShow]}
       </main>

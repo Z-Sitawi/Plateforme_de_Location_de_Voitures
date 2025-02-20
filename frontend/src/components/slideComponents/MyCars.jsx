@@ -63,12 +63,12 @@ function CarInfo(props) {
           <div className="d-flex gap-3">
             <b>statut:</b>
 
-            <button className="badge border-0 p-2 bg-success">Loué</button>
+            <span className="badge border-0 p-2 bg-success">Loué</span>
           </div>
         ) : (
           <div className="d-flex gap-3">
             <b>statut:</b>
-            <button className="badge border-0 p-2 bg-danger">Non loué</button>
+            <span className="badge border-0 p-2 bg-danger">Non loué</span>
           </div>
         )}
       </div>

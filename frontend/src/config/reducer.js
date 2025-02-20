@@ -1,67 +1,59 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-const toValidType = (data) => {
-  if (data) return JSON.parse(data);
-  else false;
-};
-
-const getAllEmails = () => {
-  let users = toValidType(localStorage.getItem("usersList"));
-  let emails = [];
-  if (users) emails = users.map((u) => u.email);
-  return emails;
-};
-
-const getID = () => {
-  // return the id of the loged in user
-  let logedinUser = toValidType(localStorage.getItem("logedinUser")) || false;
-  return logedinUser ? logedinUser.id : "x";
-};
+import {
+  getData,
+  setData,
+  getAllEmails,
+  getID,
+  Global_Accept_Request,
+  Global_Refuse_Request,
+  removeItem,
+  toJS,
+} from "../assets/myFunctions";
 
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    usersList: toValidType(localStorage.getItem("usersList")),
-    usersId: toValidType(localStorage.getItem("usersId")),
+    usersList: getData("usersList"),
+    usersId: getData("usersId"),
     emails: getAllEmails(),
-    logedinUser: toValidType(localStorage.getItem("logedinUser")) || false,
-    logedinUserCars: toValidType(localStorage.getItem("logedinUserCars")) || [],
-    availableCars: toValidType(localStorage.getItem("availableCars")) || {},
+    logedinUser: getData("logedinUser") || false,
+    logedinUserCars: getData("logedinUserCars") || [],
+    availableCars: getData("availableCars") || {},
+    userRequests: getData("userRequests-" + getID()) || [],
+    adminRequests: getData("adminRequests-" + getID()) || [],
+    TTR: getData("TTR") || 0,
   },
   reducers: {
     login: (state, action) => {
       // set Loged in user
-      localStorage.setItem("logedinUser", JSON.stringify(action.payload));
+      setData("logedinUser", action.payload);
       state.logedinUser = action.payload;
 
       // Set Loged in user cars
-      state.logedinUserCars =
-        toValidType(localStorage.getItem("cars"))[state.logedinUser.id] || [];
-      localStorage.setItem(
-        "logedinUserCars",
-        JSON.stringify(state.logedinUserCars)
-      );
+      state.logedinUserCars = getData("cars")[state.logedinUser.id] || [];
+      setData("logedinUserCars", state.logedinUserCars);
 
       // Set available cars to get rented
-      let allCars = toValidType(localStorage.getItem("cars")) || {};
+      let allCars = getData("cars") || {};
       if (allCars != {}) {
         delete allCars[state.logedinUser.id];
         state.availableCars = allCars;
-        localStorage.setItem(
-          "availableCars",
-          JSON.stringify(state.availableCars)
-        );
+        setData("availableCars", state.availableCars);
       }
     },
     logout: (state) => {
-      localStorage.removeItem("logedinUser");
+      removeItem("logedinUser");
+      removeItem("logedinUserCars");
+      removeItem("availableCars");
       state.logedinUser = false;
+      state.logedinUserCars = [];
+      state.availableCars = {};
     },
     addUser: (state, action) => {
       const newUser = action.payload;
       const users = state.usersList ? [...state.usersList, newUser] : [newUser];
-      localStorage.setItem("usersList", JSON.stringify(users));
-      localStorage.setItem("usersId", JSON.stringify(state.usersId + 1));
+      setData("usersList", users);
+      setData("usersId", state.usersId + 1);
       state.usersList = users;
       state.emails = getAllEmails();
       state.usersId += 1;
@@ -70,26 +62,34 @@ const authSlice = createSlice({
     addCar: (state, action) => {
       let carToAdd = { ...action.payload, rented: false, rentedTo: false };
       const ownerId = state.logedinUser.id;
-      const cars = toValidType(localStorage.getItem("cars"));
+      const cars = getData("cars");
       let carsList = cars[ownerId];
 
       if (carsList && carsList.length > 0) {
         carsList.push({ id: carsList.at(-1).id + 1, ...carToAdd });
         cars[ownerId] = state.logedinUserCars = carsList;
-        localStorage.setItem("cars", JSON.stringify(cars));
+        setData("cars", cars);
       } else {
         cars[ownerId] = state.logedinUserCars = [{ id: 0, ...carToAdd }];
-        localStorage.setItem("cars", JSON.stringify(cars));
+        setData("cars", cars);
       }
+      alert("Véhicule ajouté avec succès");
     },
     delCar: (state, action) => {
-      const ownerId = state.logedinUser.id;
-      let allCars = toValidType(localStorage.getItem("cars"));
+      const ownerId = toJS(state.logedinUser.id);
+      let allCars = getData("cars");
       let carsList = allCars[ownerId];
-      let newCarsList = carsList.filter((car) => car.id != action.payload);
-      allCars[ownerId] = newCarsList;
-      localStorage.setItem("cars", JSON.stringify(allCars));
-      state.logedinUserCars = newCarsList;
+      console.log(allCars);
+      let targetCar = carsList.findIndex(
+        (car) => Number(car.id) === Number(action.payload)
+      );
+      if (!carsList[targetCar].rented) {
+        carsList.splice(targetCar, 1);
+        setData("cars", allCars);
+        state.logedinUserCars = carsList;
+      } else {
+        alert("Ce véhicule ne peut pas être supprimé tant qu'il est loué.");
+      }
     },
     makeRequest: (state, action) => {
       const {
@@ -134,31 +134,93 @@ const authSlice = createSlice({
       };
 
       // Saving Request
-      if (toValidType(localStorage.getItem(keys.requests))) {
+      if (getData(keys.requests)) {
         alert(
           "Vous ne pouvez pas faire plus d'une réservation pour le même véhicule."
         );
         return;
       } else {
         // Save For Owner
-        if (toValidType(localStorage.getItem(keys.admin))) {
-          let data = toValidType(localStorage.getItem(keys.admin));
-          let newData = data.push(ownerRequest);
-          localStorage.setItem(keys.admin, JSON.stringify(newData));
+        if (getData(keys.admin)) {
+          let data = getData(keys.admin);
+          let newData = [...data, ownerRequest];
+          setData(keys.admin, newData);
         } else {
-          localStorage.setItem(keys.admin, JSON.stringify([ownerRequest]));
+          setData(keys.admin, [ownerRequest]);
         }
 
         // Save For Users
-        if (toValidType(localStorage.getItem(keys.user))) {
-          let data = toValidType(localStorage.getItem(keys.user));
+        if (getData(keys.user)) {
+          let data = getData(keys.user);
           let newData = [...data, clientRequest];
-          localStorage.setItem(keys.user, JSON.stringify(newData));
+          setData(keys.user, newData);
         } else {
-          localStorage.setItem(keys.user, JSON.stringify([clientRequest]));
+          setData(keys.user, [clientRequest]);
         }
-        localStorage.setItem(keys.requests, JSON.stringify(true));
+        setData(keys.requests, true);
         alert("Demande envoyée avec succès");
+      }
+    },
+    getRequests: (state, action) => {
+      if (action.payload === "user") {
+        state.userRequests = getData("userRequests-" + getID());
+      } else {
+        state.adminRequests = getData("adminRequests-" + getID());
+      }
+    },
+    refuseRequest: (state, action) => {
+      const confirmation = window.confirm(
+        "Etes-vous sûr de vouloir refuser cette demande ?"
+      );
+      if (confirmation) {
+        Global_Refuse_Request(state, action);
+      }
+    },
+    acceptRequest: (state, action) => {
+      const confirmation = window.confirm(
+        "Etes-vous sûr de vouloir accepté cette demande ?"
+      );
+      if (confirmation) {
+        Global_Accept_Request(state, action);
+        state.logedinUserCars = getData("cars")[action.payload.ownerId];
+
+        // Calculate Total Rvenue
+      }
+    },
+    deleteRequest: (state, action) => {
+      const { type, carId, ownerId, clientId } = action.payload;
+      const keys = {
+        admin: "adminRequests-" + ownerId,
+        user: `userRequests-${clientId}`,
+      };
+
+      const requests =
+        type === "user" ? toJS(state.userRequests) : toJS(state.adminRequests);
+
+      const requestIndex = requests.findIndex(
+        (req) =>
+          Number(req.carId) === Number(carId) &&
+          Number(req.ownerId) !== Number(ownerId) &&
+          Number(req.clientId) === Number(clientId)
+      );
+      requests.splice(requestIndex, 1);
+
+      if (type === "user") {
+        state.userRequests = requests;
+        setData(keys.user, requests);
+      } else {
+        state.adminRequests = requests;
+        setData(keys.admin, requests);
+      }
+    },
+    calculatTTR: (state) => {
+      const reqests = state.adminRequests;
+      if (reqests && reqests.length > 0) {
+        const TTR = reqests.reduce((sum, req) => {
+          return req.confirmed ? sum + Number(req.totalPrice) : sum + 0;
+        }, 0);
+        setData("TTR", TTR);
+        state.TTR = TTR;
       }
     },
   },
@@ -167,40 +229,41 @@ const authSlice = createSlice({
 const viewSlice = createSlice({
   name: "view",
   initialState: {
-    componentToShow: JSON.parse(localStorage.getItem("componentToShow")) || 0,
-    componentToShow2: JSON.parse(localStorage.getItem("componentToShow2")) || 0,
-    userRequests:
-      toValidType(localStorage.getItem("userRequests-" + getID())) || [],
+    componentToShow: getData("componentToShow") || 0,
+    componentToShow2: getData("componentToShow2") || 0,
   },
   reducers: {
     changeComponent: (state, action) => {
-      if (action.payload.type === "admin") {
+      if (!action.payload.type) {
+        setData("componentToShow2", 0);
+        setData("componentToShow", 0);
+        state.componentToShow = getData("componentToShow");
+        state.componentToShow2 = getData("componentToShow2");
+      } else if (action.payload.type === "admin") {
         state.componentToShow = action.payload.id;
-        localStorage.setItem(
-          "componentToShow",
-          JSON.stringify(action.payload.id)
-        );
+        setData("componentToShow", action.payload.id);
       } else {
         state.componentToShow2 = action.payload.id;
-        localStorage.setItem(
-          "componentToShow2",
-          JSON.stringify(action.payload.id)
-        );
-      }
-    },
-    getRequests: (state, action) => {
-      if (action.payload === "user") {
-        state.userRequests = toValidType(
-          localStorage.getItem("userRequests-" + getID())
-        );
+        setData("componentToShow2", action.payload.id);
       }
     },
   },
 });
 
 export const authReducer = authSlice.reducer;
-export const { login, logout, addUser, addCar, delCar, makeRequest } =
-  authSlice.actions;
+export const {
+  login,
+  logout,
+  addUser,
+  addCar,
+  delCar,
+  makeRequest,
+  refuseRequest,
+  acceptRequest,
+  getRequests,
+  deleteRequest,
+  calculatTTR,
+} = authSlice.actions;
 
 export const viewReducer = viewSlice.reducer;
-export const { changeComponent, getRequests } = viewSlice.actions;
+export const { changeComponent } = viewSlice.actions;

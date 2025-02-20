@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../config/reducer";
+import { changeComponent } from "../config/reducer";
 
 export default function SignInForm() {
   const [email, setEamil] = useState("");
@@ -34,6 +35,7 @@ export default function SignInForm() {
       });
     } else {
       dispatch(login(getUserByEmail(email)));
+      dispatch(changeComponent({type: false}))
       navigate("/accueil");
     }
   };

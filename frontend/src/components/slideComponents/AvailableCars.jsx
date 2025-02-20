@@ -29,7 +29,7 @@ export default function AvailableCars() {
     <>
       <MapContainer
         center={[34.021, -6.834]}
-        zoom={6}
+        zoom={13}
         style={{
           height: "100vh",
           width: "100%",

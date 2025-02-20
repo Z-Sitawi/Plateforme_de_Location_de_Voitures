@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getReservationDates } from "../assets/statics";
+import { getReservationDates } from "../assets/myFunctions";
 
 import { makeRequest } from "../config/reducer";
 
@@ -10,7 +10,7 @@ export default function CarDetailPage() {
   const { id, ownerID } = useParams();
   const cars = useSelector((state) => state.auth.availableCars);
   const logedinUser = useSelector((state) => state.auth.logedinUser);
-  const car = cars[ownerID][id];
+  const car = cars[ownerID].find((car) => Number(car.id) === Number(id));
 
   const [formData, setFormData] = useState({
     pickupDate: getReservationDates().pickupDate,

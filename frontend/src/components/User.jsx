@@ -18,6 +18,8 @@ export default function User() {
         style={{
           border: "5px solid",
           borderRadius: "15px",
+          paddingBottom: "100px",
+          minHeight: "70vh",
         }}
         className="mb-5 border-danger container bg-dangerr position-relative p-0"
       >
