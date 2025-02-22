@@ -25,18 +25,20 @@ function Map(prop) {
 
   return (
     <div>
-      <MapContainer center={prop.coordinations} zoom={13} className="" id="map">
+      <MapContainer center={[34.021, -6.834]} zoom={13} className="" id="map">
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
         <MapClickHandler />
 
-        <Marker position={prop.coordinations}>
-          <Popup>
-            <span>
-              Car Location: {prop.coordinations.lat}, {prop.coordinations.lng}
-            </span>
-          </Popup>
-        </Marker>
+        {prop.coordinations && (
+          <Marker style={{ display: "none" }} position={prop.coordinations}>
+            <Popup>
+              <span>
+                Car Location: {prop.coordinations.lat}, {prop.coordinations.lng}
+              </span>
+            </Popup>
+          </Marker>
+        )}
       </MapContainer>
     </div>
   );
@@ -44,8 +46,8 @@ function Map(prop) {
 
 const AddCarForm = () => {
   const [coordinations, setCoordinations] = useState({
-    lat: 34.021,
-    lng: -6.834,
+    lat: null,
+    lng: null,
   });
 
   const [car, setCar] = useState({
@@ -81,12 +83,15 @@ const AddCarForm = () => {
 
   const addCar = (e) => {
     e.preventDefault();
-    let newObj = { ...car, ...coordinations }
-    setCar(newObj)
-    setDisplayCard(true);
+    if (coordinations.lat && coordinations.lng) {
+      let newObj = { ...car, ...coordinations };
+      setCar(newObj);
+      setDisplayCard(true);
+    }
+    else {
+      alert('Veuillez sélectionner un emplacement sur la carte')
+    }
   };
-
-
 
   return (
     <div className="d-flex flex-column">

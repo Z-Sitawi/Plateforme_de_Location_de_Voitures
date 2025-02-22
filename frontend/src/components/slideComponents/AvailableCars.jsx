@@ -1,7 +1,12 @@
 /* eslint-disable react/prop-types */
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
 import { useSelector } from "react-redux";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import 'leaflet/dist/leaflet.css';  // Leaflet CSS
+import 'leaflet.markercluster/dist/MarkerCluster.css';
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css'; // Optional, but provides default marker cluster styles
+
+import MarkerClusterGroup from "react-leaflet-markercluster"; 
+
 
 function SmallCard({ car, ownerID }) {
   return (
@@ -13,7 +18,11 @@ function SmallCard({ car, ownerID }) {
         </h2>
         <div className="d-flex justify-content-between align-items-end">
           <span className="badge bg-danger">{car.price} DH / 24h</span>
-          <a target="_blanck" href={`/car/${car.id}/${ownerID}`} className="card-link">
+          <a
+            target="_blanck"
+            href={`/car/${car.id}/${ownerID}`}
+            className="card-link"
+          >
             voir plus
           </a>
         </div>
@@ -39,22 +48,24 @@ export default function AvailableCars() {
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-        {Object.keys(cars).map((k) => {
-          return cars[k].map((car) => {
-            if (!car.rented)
-              return (
-                <Marker
-                  onClick={() => alert("helo")}
-                  key={car.id}
-                  position={[car.lat, car.lng]}
-                >
-                  <Popup>
-                    <SmallCard car={car} ownerID={k}/>
-                  </Popup>
-                </Marker>
-              );
-          });
-        })}
+        <MarkerClusterGroup>
+          {Object.keys(cars).map((k) => {
+            return cars[k].map((car) => {
+              if (!car.rented)
+                return (
+                  <Marker
+                    onClick={() => alert("helo")}
+                    key={car.id}
+                    position={[car.lat, car.lng]}
+                  >
+                    <Popup>
+                      <SmallCard car={car} ownerID={k} />
+                    </Popup>
+                  </Marker>
+                );
+            });
+          })}
+        </MarkerClusterGroup>
       </MapContainer>
     </>
   );
