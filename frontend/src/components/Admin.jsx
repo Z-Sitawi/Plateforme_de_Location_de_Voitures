@@ -19,16 +19,16 @@ export default function Admin() {
   ];
 
   return (
-    <div className="position-relative pb-5">
+    <div className="position-relative pb-5 bg-test">
       <Navigation type="admin" navs={navs} />
       <main
         style={{
           border: "5px solid",
           borderRadius: "15px",
           paddingBottom: "100px",
-          minHeight: "70vh",
+          minHeight: "75vh",
         }}
-        className="border-danger container bg-dangerr position-relative px-3"
+        className="border-danger container position-relative px-3"
       >
         {components[componentToShow]}
       </main>

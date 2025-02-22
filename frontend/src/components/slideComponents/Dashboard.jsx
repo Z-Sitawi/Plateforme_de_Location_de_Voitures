@@ -21,27 +21,32 @@ export default function Dashboard() {
     );
   }
   return (
-    <div className="m-3 ">
+    <>
       {TTR > 0 && (
-        <h1 className="py-3 display-4">
-          Revenu Total: <b>{TTR}</b> Dh
+        <h1 className="py-3 text-center">
+          Revenu Total: <small><b>{TTR}</b></small> Dh
         </h1>
       )}
-      <table className="table table-bordered">
-        <thead>
-          <tr>
-            <th className="text-center">Véhicule</th>
-            <th className="text-center">Date de Prise en Charge</th>
-            <th className="text-center">Date de retour</th>
-            <th className="text-center">Total à payer</th>
-            <th className="text-center">Tél</th>
-            <th className="text-center"></th>
-          </tr>
-          {adminRequests.map((obj, idx) => {
-            return <RowAdmin key={idx} req={obj} />;
-          })}
-        </thead>
-      </table>
-    </div>
+      <div
+        style={{ overflowX: "scroll" }}
+        className="col-12 p-3"
+      >
+        <table className="table table-bordered border-0">
+          <thead>
+            <tr className="table-dark">
+              <th className="text-center">Véhicule</th>
+              <th className="text-center">Date de Prise en Charge</th>
+              <th className="text-center">Date de retour</th>
+              <th className="text-center">Total à payer</th>
+              <th className="text-center">Tél</th>
+              <th className="text-center">Action</th>
+            </tr>
+            {adminRequests.map((obj, idx) => {
+              return <RowAdmin key={idx} req={obj} />;
+            })}
+          </thead>
+        </table>
+      </div>
+    </>
   );
 }
