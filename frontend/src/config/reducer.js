@@ -76,16 +76,18 @@ const authSlice = createSlice({
       alert("Véhicule ajouté avec succès");
     },
     delCar: (state, action) => {
+      const carId = action.payload;
       const ownerId = toJS(state.logedinUser.id);
       let allCars = getData("cars");
       let carsList = allCars[ownerId];
-      console.log(allCars);
+
       let targetCar = carsList.findIndex(
-        (car) => Number(car.id) === Number(action.payload)
+        (car) => Number(car.id) === Number(carId)
       );
       if (!carsList[targetCar].rented) {
         carsList.splice(targetCar, 1);
         setData("cars", allCars);
+        setData("logedinUserCars", carsList);
         state.logedinUserCars = carsList;
       } else {
         alert("Ce véhicule ne peut pas être supprimé tant qu'il est loué.");
