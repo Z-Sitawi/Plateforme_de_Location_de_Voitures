@@ -2,8 +2,9 @@
   text-wrap: nowrap;
   font-weight: bold;
   font-size: xx-large;
-  border: 5px solid #dc3545;
+  border: 5px solid #1d1b1bce;
   border-radius: 15px;
+  color: white;
 }
 
 #hand {

@@ -8,10 +8,12 @@
 }
 
 .bg-red {
-  background: linear-gradient(to top right, #79001c, #db3153, #79001c);
-  color: white !important;
-  font-weight: bold;
-  box-shadow: 1px 1px 1px 1px rgb(255, 255, 255);
+  background: linear-gradient(
+    to top right,
+    #79001c,
+    #db3153,
+    #79001c
+  ) !important;
 }
 
 .btn-red {
@@ -20,16 +22,27 @@
   font-weight: bold;
   box-shadow: 1px 1px 1px 1px rgb(255, 255, 255);
   border: unset;
-  transition: 0.5s;
+  transition: 0.5s !important;
 }
 
 .btn-red:hover {
-  background: linear-gradient(to top right, #acacac, #ffffff, #b9afaf);
-  box-shadow: 1px 1px 1px 1px rgb(5, 5, 5);
+  background: linear-gradient(to left, #000, #000);
+  box-shadow: 1px 1px 1px 1px rgb(255, 255, 255);
+  color: white;
+  box-shadow: 1px 1px 10px 7px rgb(207, 197, 199);
+}
+
+#adminTxt {
+  transition: 0.5s !important;
+  color: white;
+}
+
+.btn-red:hover > span {
+  color: #db3153 !important;
 }
 
 .btn-white {
-  background: linear-gradient(to top right, #919090, #fffffff2, #a29e9e);
+  background: linear-gradient(to left, #e8e7e7, #fffffff2, #e8e7e7);
   color: black;
   font-weight: bold;
   box-shadow: 1px 1px 1px 1px rgb(255, 255, 255);
@@ -39,17 +52,21 @@
 
 .btn-white:hover {
   color: white;
-  background: linear-gradient(to top right, #181818, #646060, black);
+  background: linear-gradient(to top right, #181818, #2f2f2f, black);
   box-shadow: 1px 1px 1px 1px rgb(5, 5, 5);
 }
 
-.slogan {
-  height: 20vh;
-  width: 100%;
-  position: absolute;
-  top: calc(40%);
+.slogan1 {
+  font-size: calc(1.625rem + 3.5vw);
   font-family: "Fugaz One", serif;
   font-weight: 600;
+  text-shadow: 10px 10px 10px #181818;
+}
+
+.slogan2 {
+  font-size: calc(1rem + 1.5vw);
+  font-family: "Fugaz One", serif;
+  font-weight: 300;
   text-shadow: 10px 10px 10px #181818;
 }
 

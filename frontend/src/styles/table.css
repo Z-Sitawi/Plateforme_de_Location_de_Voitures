@@ -1,0 +1,50 @@
+:root {
+    --primary-color: rgb(208, 208, 208);
+  }
+
+.table {
+  border-radius: 15px;
+}
+
+.table tr:first-of-type {
+  border: 1px solid rgba(0, 0, 0, 0);
+  border-bottom: 5px solid rgb(255, 255, 255);
+}
+
+.table tr {
+  border-bottom: 5px solid rgb(255, 255, 255);
+}
+
+.table th:first-of-type {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.table th:last-of-type {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.table tr td {
+  background-color: var(--primary-color) !important;
+}
+
+.table tr td:first-of-type {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.table tr td:last-of-type {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.table tr td {
+  border: none;
+}
+
+@media screen AND (max-width: 500px) {
+  table, tr, td, th {
+    font-size: smaller;
+  }
+}
