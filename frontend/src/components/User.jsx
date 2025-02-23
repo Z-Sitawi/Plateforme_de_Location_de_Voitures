@@ -14,14 +14,7 @@ export default function User() {
   return (
     <div className="position-relative pb-5">
       <Navigation type="user" navs={navs} />
-      <main
-        style={{
-          border: "5px solid",
-          borderRadius: "15px",
-          paddingBottom: "100px",
-          minHeight: "70vh",
-        }}
-        className="mb-5 border-danger container bg-dangerr position-relative p-0"
+      <main className="main mb-5 border-danger container position-relative px-0"
       >
         {components[componentToShow2]}
       </main>

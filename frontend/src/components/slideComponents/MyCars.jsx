@@ -90,11 +90,11 @@ export default function MyCars() {
   const myCars = useSelector((state) => state.auth.logedinUserCars);
 
   return (
-    <div>
+    <div className="p-3 pb-0">
       {myCars.length > 0 ? (
         myCars.map((car, idx) => <CarInfo key={idx} car={car} />)
       ) : (
-        <h1 className="text-danger text-center pt-5">Aucune voiture trouvée</h1>
+        <h1 className="display-2 text-danger text-center pt-5">Aucune voiture trouvée</h1>
       )}
     </div>
   );

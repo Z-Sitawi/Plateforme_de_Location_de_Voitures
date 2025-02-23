@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getRequests, calculatTTR } from "../../config/reducer";
 import RowAdmin from "../RowAdmin";
+import "../../styles/table.css"
 
 export default function Dashboard() {
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ export default function Dashboard() {
         </h1>
       )}
       <div
-        style={{ overflowX: "scroll" }}
+        style={{ overflowX: "scroll", textWrap: 'nowrap' }}
         className="col-12 p-3"
       >
         <table className="table table-bordered border-0">

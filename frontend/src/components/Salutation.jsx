@@ -29,15 +29,15 @@ export default function Salutation(props) {
     <div
       style={{ color: props.color, border: props.border, ...props.style }}
       className={
-        "salutation p-3 px-5 d-flex justify-content-between align-items-center " +
+        "salutation shadow p-3 px-5 d-flex justify-content-between align-items-center bg-red "+
         props.className
       }
     >
-      <p>
+      <p className="font-FugazOne" style={{fontWeight: "100"}}>
         {`${salutation()} `}
         <span id="hand">👋</span>
         {` ${logedinUser.nom} ${logedinUser.prenom}!`}
-        {props.admin && <u className="badge text-danger">Admin</u>}
+        {props.admin && <u className="badge text-dark">Admin</u>}
       </p>
       <i
         onClick={() => dispatch(logout())}

@@ -94,11 +94,12 @@ const AddCarForm = () => {
   };
 
   return (
-    <div className="d-flex flex-column">
+    <div className="d-flex flex-column p-3">
       <Card
         car={car}
         displayCard={displayCard}
         setDisplayCard={setDisplayCard}
+        setCoordinations={setCoordinations}
         setCar={setCar}
       />
       <h1 className="text-center">Ajouter un Nouveau Véhicule</h1>
@@ -257,7 +258,7 @@ const AddCarForm = () => {
         </div>
         <button
           style={{ bottom: "10px" }}
-          className="btn btn-danger col-11 position-absolute"
+          className="btn btn-red col-11 position-absolute"
         >
           Ajouter
         </button>

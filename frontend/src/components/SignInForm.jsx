@@ -35,7 +35,7 @@ export default function SignInForm() {
       });
     } else {
       dispatch(login(getUserByEmail(email)));
-      dispatch(changeComponent({type: false}))
+      dispatch(changeComponent({ type: false }));
       navigate("/accueil");
     }
   };

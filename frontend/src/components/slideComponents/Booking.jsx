@@ -19,10 +19,10 @@ export default function Booking() {
     );
   }
   return (
-    <div className="m-3">
-      <table className="table table-bordered">
+    <div className="m-3" style={{ overflowX: "scroll", textWrap: 'nowrap' }}>
+      <table className="table table-bordered border-0">
         <thead>
-          <tr>
+          <tr className="bg-dark text-light text-nowrap">
             <th className="text-center">Véhicule</th>
             <th className="text-center">Date de Prise en Charge</th>
             <th className="text-center">Date de retour</th>
