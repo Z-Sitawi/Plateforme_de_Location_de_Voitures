@@ -26,10 +26,10 @@ export default function App() {
     return (
       <div id="app">
         <Header />
-        <h1 className="slogan text-center text-light px-5">
-          <span className="display-1">Votre Voiture, Votre Liberté</span>
+        <h1 className="text-center text-light px-2 my-5 px-lg-5">
+          <span className="slogan1">Votre Voiture, Votre Liberté</span>
           <br />
-          <span className="display-4">
+          <span className="slogan2">
             Louez Facilement en Ligne avec GoVroom
           </span>
         </h1>
