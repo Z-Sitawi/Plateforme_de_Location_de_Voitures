@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import filter_Object_of_Cars from "../assets/filteringFunc";
 import {
   getData,
   setData,
@@ -225,6 +226,11 @@ const authSlice = createSlice({
         state.TTR = TTR;
       }
     },
+    filterCars: (state, action) => {
+      let carsToFilter = getData("availableCars");
+      let cars = filter_Object_of_Cars(carsToFilter, action.payload);
+      state.availableCars = cars;
+    },
   },
 });
 
@@ -252,6 +258,47 @@ const viewSlice = createSlice({
   },
 });
 
+const filterSlice = createSlice({
+  name: "filter",
+  initialState: {
+    elements: {
+      minPrice: 0,
+      maxPrice: 1000,
+      color: "",
+      fuel: "",
+      mark: "",
+      model: "",
+    },
+  },
+  reducers: {
+    setMinPrice: (state, action) => {
+      state.elements.minPrice = Number(action.payload);
+    },
+    setMaxPrice: (state, action) => {
+      state.elements.maxPrice = Number(action.payload);
+    },
+    setFuelOrColor: (state, action) => {
+      const { name, value } = action.payload;
+      name === "fuel"
+        ? (state.elements.fuel = value)
+        : (state.elements.color = value);
+    },
+    setMarkOrModel: (state, action) => {
+      const inputValue = action.payload;
+
+      if (inputValue === "") {
+        state.elements.mark = "";
+        state.elements.model = "";
+      } else {
+        let value = inputValue.split(",");
+
+        if (value[0]) state.elements.mark = value[0];
+        if (value[1]) state.elements.model = value[1];
+      }
+    },
+  },
+});
+
 export const authReducer = authSlice.reducer;
 export const {
   login,
@@ -265,7 +312,12 @@ export const {
   getRequests,
   deleteRequest,
   calculatTTR,
+  filterCars,
 } = authSlice.actions;
 
 export const viewReducer = viewSlice.reducer;
 export const { changeComponent } = viewSlice.actions;
+
+export const filterReducer = filterSlice.reducer;
+export const { setMaxPrice, setMinPrice, setFuelOrColor, setMarkOrModel } =
+  filterSlice.actions;

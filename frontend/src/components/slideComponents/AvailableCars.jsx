@@ -1,12 +1,13 @@
 /* eslint-disable react/prop-types */
 import { useSelector } from "react-redux";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import 'leaflet/dist/leaflet.css';  // Leaflet CSS
-import 'leaflet.markercluster/dist/MarkerCluster.css';
-import 'leaflet.markercluster/dist/MarkerCluster.Default.css'; // Optional, but provides default marker cluster styles
+import "leaflet/dist/leaflet.css"; // Leaflet CSS
+import "leaflet.markercluster/dist/MarkerCluster.css";
+import "leaflet.markercluster/dist/MarkerCluster.Default.css"; // Optional, but provides default marker cluster styles
 
-import MarkerClusterGroup from "react-leaflet-markercluster"; 
-
+import MarkerClusterGroup from "react-leaflet-markercluster";
+import Filters from "../Filters";
+import { useEffect, useState } from "react";
 
 function SmallCard({ car, ownerID }) {
   return (
@@ -31,16 +32,14 @@ function SmallCard({ car, ownerID }) {
   );
 }
 
-export default function AvailableCars() {
-  const cars = useSelector((state) => state.auth.availableCars);
-
+function Map({ cars }) {
   return (
     <>
       <MapContainer
         center={[34.021, -6.834]}
-        zoom={13}
+        zoom={6}
         style={{
-          height: "100vh",
+          height: "500px",
           width: "100%",
           borderRadius: "13px",
           zIndex: "0",
@@ -67,6 +66,36 @@ export default function AvailableCars() {
           })}
         </MarkerClusterGroup>
       </MapContainer>
+    </>
+  );
+}
+
+export default function AvailableCars() {
+  const cars = useSelector((state) => state.auth.availableCars);
+  const [carsCount, setCarsCount] = useState(0);
+
+  useEffect(() => {
+    const totalCarsCount = Object.keys(cars).reduce((total, key) => {
+      return total + cars[key].length;
+    }, 0);
+
+    setCarsCount(totalCarsCount);
+  }, [cars]);
+
+  return (
+    <>
+      <Filters />
+      <section className="p-3 ">
+        <h6 className="font-FugazOne ps-3 text-light mb-3 bg-dark rounded">
+          Voitures disponibles :
+          <span className="ms-3 rounded bg-red text-light p-1">
+            {carsCount}
+          </span>
+        </h6>
+        <div className="col-12">
+          <Map cars={cars} />
+        </div>
+      </section>
     </>
   );
 }
