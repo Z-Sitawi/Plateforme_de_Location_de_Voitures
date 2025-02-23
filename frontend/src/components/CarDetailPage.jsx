@@ -70,8 +70,8 @@ export default function CarDetailPage() {
   };
 
   return (
-    <div className="container py-3 px-2">
-      <h1 style={{ fontSize: "100%" }} className="p-3 bg-red rounded">
+    <div className="container py-3 px-5 bg-light">
+      <h1 style={{ fontSize: "100%" }} className="p-3 text-light font-FugazOne bg-red rounded">
         {car.mark} {car.model}
       </h1>
       <div className="">
@@ -81,8 +81,8 @@ export default function CarDetailPage() {
           alt={car.mark + " " + car.model}
         />
         {car.description && (
-          <div className="pt-3">
-            <h5>Description: </h5>
+          <div className="pt-3 ">
+            <h5 className="font-FugazOne">Description: </h5>
             <p>{car.description}</p>
           </div>
         )}
@@ -105,7 +105,7 @@ export default function CarDetailPage() {
         </div>
       </div>
 
-      <h2>Demander la location de ce véhicule:</h2>
+      <h2 className="font-FugazOne">Demander la location de ce véhicule:</h2>
 
       <form className="pb-5" onSubmit={submit}>
         <div className="d-flex flex-column gap-1 my-3">
@@ -150,12 +150,12 @@ export default function CarDetailPage() {
         </div>
 
         <div className="position-relative">
-          <button type="submit" className="btn btn-red">
-            envoyer la demande
+          <button type="submit" className="font-FugazOne btn btn-red" style={{fontWeight: "300"}}>
+            Envoyer la demande
           </button>
           {formData.totalPrice && (
             <strong
-              style={{ right: "0px", width: "fit-content", height: "100%" }}
+              style={{ right: "0px", bottom: "-40px", width: "fit-content", height: "100%" }}
               className="position-absolute text-dark py-3"
             >
               Total à payer: {formData.totalPrice} DH

@@ -24,7 +24,7 @@ export default function AuthPage() {
   if (!logedinUser) {
     return (
       <div
-        className="py-5 d-flex flex-column justify-content-center align-items-center bg-dark"
+        className="bgc py-5 d-flex flex-column justify-content-center align-items-center"
         style={{ minHeight: "100vh" }}
       >
         <img
@@ -68,7 +68,7 @@ export default function AuthPage() {
               Se connecter
             </a>
           </div>
-          <div className="bg-light p-5 formBox">
+          <div className="shadow bg-light p-5 formBox">
             {action === "login" ? <SignInForm /> : <SignUpForm />}
           </div>
         </div>

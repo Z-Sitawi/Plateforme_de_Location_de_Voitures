@@ -18,6 +18,10 @@ export default function Card(props) {
       description: "",
       image: "",
     });
+    props.setCoordinations({
+      lat: null,
+      lng: null,
+    });
     props.setDisplayCard(false);
   };
 

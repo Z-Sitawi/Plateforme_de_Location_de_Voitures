@@ -16,7 +16,7 @@ export default function Header() {
         <img src={logo} alt="GoVroom"/>
       </section>
 
-      <section className="d-flex gap-3 col-9">
+      <section className="authBtns d-flex gap-3 col-12 col-md-9">
         <button onClick={onBtnClicked} name="signup" className="btn btn-red">s&apos;inscrire</button>
         <button onClick={onBtnClicked} name="login" className="btn btn-white">se connecter</button>
       </section>
